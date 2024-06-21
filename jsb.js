@@ -1,14 +1,25 @@
 let topMod = 0;
-let lefMod = 0;
+let leftMod = 0;
 
 $("body").on("mousemove", webHandler);
 
 function webHandler(event){
     let button  = $("#No").position();
     let buttonCenter = {
-        x: button.left + 50,
-        y: button.top + 20
+        x: button.left + 30,
+        y: button.top + 10
     
     }
-let distance = Math.sqrt (Math.pow(event.pageX - buttonCenter.z, 2))
+let distance = Math.sqrt (Math.pow(event.pageX - buttonCenter.x, 2))
+if (distance < 60){
+    var angle = calculateAngle (event, buttonCenter, distance)
+        leftMod += 10 * angle.cos * (event.pageX < buttonCenter.x ? 1: -1)
+        topMod += 10* angle.sin * (event.pageY < buttonCenter.y ? 1 : -1)
+        $('#No').css({top: topMod, left: leftMod, position:'relative'})
+    }
+}
+function calculateAngle(mouse, center, distance){
+    let sin = Math.abs(mouse.pageY - center. y)/distance;
+    let cos = Math.abs(mouse.pageX - center. x)/distance;
+    return {sin: sin, cos: cos}
 }
